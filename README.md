@@ -1,4 +1,4 @@
-# akka.js-calculator
+# akka.js-examples
 A port of the Coursera Functional Reactive Programming exercise (Scala.rx -> Akka.js)
 
 ## To run
