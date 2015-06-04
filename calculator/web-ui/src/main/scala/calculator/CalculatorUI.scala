@@ -10,7 +10,9 @@ import akka.actor._
 import scala.concurrent.duration._
 import akka.util.Timeout
 
-abstract class ObservableActor[A <: html.Element](id: String) extends Actor {
+trait DOMInput[A <: html.Element] {
+  me: Actor =>
+  val id: String
   val element = UI.elementById[A](id)
 
   element.addEventListener("change", (m: dom.Event) => self ! m)
@@ -20,19 +22,21 @@ abstract class ObservableActor[A <: html.Element](id: String) extends Actor {
 
 // TWEET
 
-case class TweetMsg(value: Int, color: String)
+object Tweet {
+  case class TweetMsg(value: Int, color: String)
+}
 
 class TweetUI extends Actor {
-  val element = document.getElementById("tweetremainingchars").asInstanceOf[html.Span]
+  val element = UI.elementById[html.Span]("tweetremainingchars")
 
   def receive = {
-    case TweetMsg(text, color) =>
+    case Tweet.TweetMsg(text, color) =>
       element.textContent = text.toString
       element.style.color = color
   }
 }
 
-class Tweet extends ObservableActor[html.TextArea]("tweettext") {
+class TweetActor(val id: String = "tweettext") extends Actor with DOMInput[html.TextArea] {
   def value = element.value
 
   override def preStart() = {
@@ -43,28 +47,30 @@ class Tweet extends ObservableActor[html.TextArea]("tweettext") {
     case e: dom.Event =>
       val remaining = TweetLength.tweetRemainingCharsCount(value)
       context.child("ui") match {
-        case Some(ui) => ui ! TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining))
+        case Some(ui) => ui ! Tweet.TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining))
       }
   }
 }
 
 // POLYNOMIAL
 
-case class PolynomialMsg(delta: Double, solutions: Set[Double])
-case class Value(id: Char, newValue: Double)
+object Poly {
+  case class PolynomialMsg(delta: Double, solutions: Set[Double])
+  case class Value(id: Char, newValue: Double)
+}
 
 class PolynomialUI extends Actor {
   val deltaArea = UI.elementById[html.Span]("polyrootdelta")
   val solutionsArea = UI.elementById[html.Span]("polyrootsolutions")
 
   def receive = {
-    case PolynomialMsg(delta, solutions) =>
+    case Poly.PolynomialMsg(delta, solutions) =>
       deltaArea.textContent = delta.toString
       solutionsArea.textContent = solutions.toString
   }
 }
 
-class PolynomialChild(id: String) extends ObservableActor[html.Input](id) {
+class PolynomialChild(val id: String) extends Actor with DOMInput[html.Input] {
   import js.JSStringOps._
 
   def value = element.value
@@ -82,11 +88,11 @@ class PolynomialChild(id: String) extends ObservableActor[html.Input](id) {
             childParent.className += " has-error"
             Double.NaN
         }
-      context.parent ! Value(id.last, newValue)
+      context.parent ! Poly.Value(id.last, newValue)
   }
 }
 
-class APolynomial extends Actor {
+class PolyActor extends Actor {
   def parent = self
 
   val names = List("polyroota", "polyrootb", "polyrootc")
@@ -101,7 +107,7 @@ class APolynomial extends Actor {
   def receive = operational(names.map(_.last -> Double.NaN).toMap)
 
   def operational(vals: Map[Char, Double]) : Receive = {
-    case Value(id, newValue) =>
+    case Poly.Value(id, newValue) =>
       val dVs = vals.map{case (k, v) => k -> Math.pow(v, 2)}
 
       val delta = Polynomial.computeDelta(dVs('a'), dVs('b'), dVs('c'))
@@ -109,7 +115,7 @@ class APolynomial extends Actor {
       val solutions = Polynomial.computeSolutions(dVs('a'), dVs('b'), dVs('c'), delta)
 
       context.child("ui") match {
-        case Some(ui) => ui !  PolynomialMsg(delta, solutions)
+        case Some(ui) => ui !  Poly.PolynomialMsg(delta, solutions)
       }
 
       context.become(operational(vals + (id -> newValue)))
@@ -119,15 +125,17 @@ class APolynomial extends Actor {
 
 // CALCULATOR
 
-case class ACalculatorMsg(value: Map[Char, Double])
-case class ACalculatorExpr(id: Char, value: Expr)
-case class IsMine(id: Char, value: Double)
+object Calc {
+  case class CalculatorMsg(value: Map[Char, Double])
+  case class CalculatorExpr(id: Char, value: Expr)
+  case class IsMine(id: Char, value: Double)
+}
 
-object ACalculatorNames {
+object CalculatorNames {
   val names = (0 until 10).map(i => ('a' + i).toChar.toString)
 }
 
-class ACalculatorUIChild(id: String) extends Actor {
+class CalculatorUIChild(id: String) extends Actor {
   val elem = UI.elementById[html.Span]("calculatorval" + id)
 
   def receive = contextify(.0)
@@ -144,24 +152,24 @@ class ACalculatorUIChild(id: String) extends Actor {
   }
 }
 
-class ACalculatorUI extends Actor {
-  import ACalculatorNames._
+class CalculatorUI extends Actor {
+  import CalculatorNames._
 
   override def preStart() = {
     names map (id => {
-      context.actorOf(Props(classOf[ACalculatorUIChild], id.last.toString), id.last.toString)
+      context.actorOf(Props(classOf[CalculatorUIChild], id.last.toString), id.last.toString)
     })
   }
 
   def receive = {
-    case ACalculatorMsg(value) =>
+    case Calc.CalculatorMsg(value) =>
       value.keySet.foreach(k => context.child(k.toString) match {
         case Some(actor) => actor ! value(k)
       })
   }
 }
 
-class ACalculatorChild(id: String) extends ObservableActor[html.Input](id) {
+class CalculatorChild(val id: String) extends Actor with DOMInput[html.Input] {
   import js.JSStringOps._
 
   def value = element.value
@@ -179,7 +187,7 @@ class ACalculatorChild(id: String) extends ObservableActor[html.Input](id) {
             childParent.className += " has-error"
             Literal(Double.NaN)
         }
-      context.parent ! ACalculatorExpr(id.last, newValue)
+      context.parent ! Calc.CalculatorExpr(id.last, newValue)
   }
 
   def parseExpr(text: String): Expr = {
@@ -215,15 +223,15 @@ class ACalculatorChild(id: String) extends ObservableActor[html.Input](id) {
   }
 }
 
-class ACalculator extends Actor {
+class CalcActor extends Actor {
   def parent = self
 
-  import ACalculatorNames._
+  import CalculatorNames._
 
   override def preStart() = {
-    context.actorOf(Props[ACalculatorUI], "ui")
+    context.actorOf(Props[CalculatorUI], "ui")
     names map (id => {
-      context.actorOf(Props(classOf[ACalculatorChild], "calculatorexpr" + id), "calculatorexpr" + id)
+      context.actorOf(Props(classOf[CalculatorChild], "calculatorexpr" + id), "calculatorexpr" + id)
     })
   }
 
@@ -232,11 +240,11 @@ class ACalculator extends Actor {
   )
 
   def operational(vals: Map[Char, Expr]) : Receive = {
-    case ACalculatorExpr(id, newValue) =>
+    case Calc.CalculatorExpr(id, newValue) =>
       val newMap: Map[Char, Expr] = vals + (id -> newValue)
 
       context.child("ui") match {
-        case Some(ui) => ui ! ACalculatorMsg(Calculator.computeValues(newMap))
+        case Some(ui) => ui ! Calc.CalculatorMsg(Calculator.computeValues(newMap))
       }
 
       context.become(operational(newMap))
@@ -271,19 +279,19 @@ object UI extends js.JSApp {
   // TWEET LENGTH
 
   def setupTweetMeasurer(): Unit = {
-    val tweetActor = system.actorOf(Props(classOf[Tweet]))
+    val tweetActor = system.actorOf(Props(classOf[TweetActor]))
   }
 
   // 2ND ORDER POLYNOMIAL
 
   def setup2ndOrderPolynomial(): Unit = {
-    val polynomialActor = system.actorOf(Props(classOf[APolynomial]))
+    val polynomialActor = system.actorOf(Props(classOf[PolyActor]))
   }
 
   // CALCULATOR
 
   def setupCalculator(): Unit = {
-    val calculatorActor = system.actorOf(Props(classOf[ACalculator]))
+    val calculatorActor = system.actorOf(Props(classOf[CalcActor]))
   }
 
 }
