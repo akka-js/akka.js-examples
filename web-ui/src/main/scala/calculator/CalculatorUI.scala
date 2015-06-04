@@ -32,13 +32,19 @@ class TweetUI extends Actor {
   }
 }
 
-class Tweet(ui: ActorRef) extends ObservableActor[html.TextArea]("tweettext") {
+class Tweet extends ObservableActor[html.TextArea]("tweettext") {
   def value = element.value
+
+  override def preStart() = {
+    context.actorOf(Props[TweetUI], "ui")
+  }
 
   def receive = {
     case e: dom.Event =>
       val remaining = TweetLength.tweetRemainingCharsCount(value)
-      ui ! TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining))
+      context.child("ui") match {
+        case Some(ui) => ui ! TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining))
+      }
   }
 }
 
@@ -80,12 +86,13 @@ class PolynomialChild(id: String) extends ObservableActor[html.Input](id) {
   }
 }
 
-class APolynomial(ui: ActorRef) extends Actor {
+class APolynomial extends Actor {
   def parent = self
 
   val names = List("polyroota", "polyrootb", "polyrootc")
 
   override def preStart() = {
+    context.actorOf(Props[PolynomialUI], "ui")
     names map (id => {
       context.actorOf(Props(classOf[PolynomialChild], id), id)
     })
@@ -101,7 +108,9 @@ class APolynomial(ui: ActorRef) extends Actor {
 
       val solutions = Polynomial.computeSolutions(dVs('a'), dVs('b'), dVs('c'), delta)
 
-      ui ! PolynomialMsg(delta, solutions)
+      context.child("ui") match {
+        case Some(ui) => ui !  PolynomialMsg(delta, solutions)
+      }
 
       context.become(operational(vals + (id -> newValue)))
   }
@@ -118,27 +127,29 @@ object ACalculatorNames {
   val names = (0 until 10).map(i => ('a' + i).toChar.toString)
 }
 
+class ACalculatorUIChild(id: String) extends Actor {
+  val elem = UI.elementById[html.Span]("calculatorval" + id)
+
+  def receive = contextify(.0)
+
+  def contextify(state: Double): Receive = {
+    case other: Double if state != other =>
+      elem.textContent = other.toString
+
+      elem.style.backgroundColor = "#ffff99"
+      js.timers.setTimeout(1500) {
+        elem.style.backgroundColor = "white"
+      }
+      context.become(contextify(other))
+  }
+}
+
 class ACalculatorUI extends Actor {
   import ACalculatorNames._
 
   override def preStart() = {
     names map (id => {
-      context.actorOf(Props(new Actor {
-        val elem = UI.elementById[html.Span]("calculatorval" + id)
-
-        def receive = contextify(.0)
-
-        def contextify(state: Double): Receive = {
-          case other: Double if state != other =>
-            elem.textContent = other.toString
-
-            elem.style.backgroundColor = "#ffff99"
-            js.timers.setTimeout(1500) {
-              elem.style.backgroundColor = "white"
-            }
-            context.become(contextify(other))
-        }
-      }), id.last.toString)
+      context.actorOf(Props(classOf[ACalculatorUIChild], id.last.toString), id.last.toString)
     })
   }
 
@@ -204,12 +215,13 @@ class ACalculatorChild(id: String) extends ObservableActor[html.Input](id) {
   }
 }
 
-class ACalculator(ui: ActorRef) extends Actor {
+class ACalculator extends Actor {
   def parent = self
 
   import ACalculatorNames._
 
   override def preStart() = {
+    context.actorOf(Props[ACalculatorUI], "ui")
     names map (id => {
       context.actorOf(Props(classOf[ACalculatorChild], "calculatorexpr" + id), "calculatorexpr" + id)
     })
@@ -223,7 +235,9 @@ class ACalculator(ui: ActorRef) extends Actor {
     case ACalculatorExpr(id, newValue) =>
       val newMap: Map[Char, Expr] = vals + (id -> newValue)
 
-      ui ! ACalculatorMsg(Calculator.computeValues(newMap))
+      context.child("ui") match {
+        case Some(ui) => ui ! ACalculatorMsg(Calculator.computeValues(newMap))
+      }
 
       context.become(operational(newMap))
   }
@@ -257,25 +271,19 @@ object UI extends js.JSApp {
   // TWEET LENGTH
 
   def setupTweetMeasurer(): Unit = {
-    val uiActor = system.actorOf(Props[TweetUI])
-
-    val tweetActor = system.actorOf(Props(classOf[Tweet], uiActor))
+    val tweetActor = system.actorOf(Props(classOf[Tweet]))
   }
 
   // 2ND ORDER POLYNOMIAL
 
   def setup2ndOrderPolynomial(): Unit = {
-    val uiActor = system.actorOf(Props[PolynomialUI])
-
-    val polynomialActor = system.actorOf(Props(classOf[APolynomial], uiActor))
+    val polynomialActor = system.actorOf(Props(classOf[APolynomial]))
   }
 
   // CALCULATOR
 
   def setupCalculator(): Unit = {
-    val uiActor = system.actorOf(Props[ACalculatorUI])
-
-    val calculatorActor = system.actorOf(Props(classOf[ACalculator], uiActor))
+    val calculatorActor = system.actorOf(Props(classOf[ACalculator]))
   }
 
 }
