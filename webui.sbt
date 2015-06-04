@@ -7,5 +7,6 @@ lazy val webUI = project.in(file("web-ui")).
       (scalaSource in (assignmentProject, Compile)).value / "calculator",
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.8.0",
     libraryDependencies += "akka.js" %%% "akkaactor" % "0.2-SNAPSHOT",
-    persistLauncher := true
+    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.0-SNAP5",
+    scalaJSStage in Global := FastOptStage
   )
