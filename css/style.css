@@ -1,0 +1,79 @@
+/*
+
+	Vertical rhythm: 50px;
+	Main color: #cc3333;
+
+*/
+
+/* Generals */
+
+html, body {
+	height: 100%;
+	font-family: 'Open Sans', sans-serif;
+}
+
+p {
+	font-size: 18px;
+	line-height: 27px;
+	color: #222222;
+}
+
+/* [component] Main container */
+
+.container {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+
+	margin: 0 auto;
+
+	padding: 0 20px;
+	max-width: 820px;
+}
+
+/* [component] Buttons */
+
+.btn {
+	padding: 15px 20px;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.btn--primary {
+	color: #ffffff;
+	background-color: #cc3333;
+
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-size: 15px;
+}
+
+.btn--primary:hover,
+.btn--primary:focus,
+.btn--primary:active {
+}
+
+.btn--full:not(:last-of-type) { margin-bottom: 10px; }
+.btn--full { display: block; }
+
+/* Parts */
+
+.section { margin-bottom: 50px; }
+
+.footer {}
+.footer .footer__small { font-size: 11px; }
+
+/* Things */
+
+.text--left 	{ text-align: center; }
+.text--center 	{ text-align: center; }
+.text--right 	{ text-align: right; }
+
+.thing--left 	{ float: left; }
+.thing--right	{ float: right; }
+
+.clearfix 		{ clear: both; }
+
+.text--small 	{ font-size: 11px; }
+.text--normal 	{ font-size: 18px; }
+.text--big 		{ font-size: 24px; }

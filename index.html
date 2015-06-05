@@ -1,25 +1,51 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <meta charset="UTF-8">
-  <title>Akka.js Examples</title>
-  <link href='http://fonts.googleapis.com/css?family=Anonymous+Pro' rel='stylesheet' type='text/css'>
-  <style>
-    * { font-family: 'Anonymous Pro'; font-size: 40px; line-height: 200%; }
-    a { display: block; color: #40413E; margin-bottom: 10px }
-    .logo { display: block; margin: auto; width: 30%; }
-    .box { margin-top: 1%; display: block; width: 100%; text-align: center }
-  </style>
- </head>
- <body>
-   <div class="box">
-     <h3>The demos require Chromium</h3>
-     <span style="font-size: 20px">
-       The code for Raft comes from archie/raft, the code the calculator is an exercise from
-       the FRP course on Coursera that was ported to Akka.js
-     </span>
-     <a href="raft/index.html">Raft Consensus Algorithm</a>
-     <a href="calculator/web-ui/index.html">Reactive Calculator</a>
-   </div>
- </body>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Akka.js Examples</title>
+	
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="container">
+
+		<header class="section text--center">
+			<img src="https://avatars1.githubusercontent.com/u/5452229" height="100px" alt="Logo">
+      <h1>Akka.js</h1>
+		</header>
+
+		<p class="section">
+    Akka.js is a porting of Akka to the JavaScript runtime, meaning now Akka can run everywhere JavaScript can,
+    including Node.js and browsers!
+    <br><br>
+    This page showcases a couple of demos:
+      <ul>
+        <li>
+          <b>Raft Consensus Algorithm</b> is a <a href="//raftconsensus.github.io/">Raft</a> implementation adapted 
+          from <a href="//github.com/archie/raft">archie/raft</a>, which
+          showcases multicore computing through Web Workers 
+        </li>
+        <li>
+          <b>Reactive Calculator</b> is an exercise from the Functional Reactive Programming course on Coursera that
+          was ported to Akka.js to show possible ways of integrating Akka with the DOM
+        </li>
+    </p>
+		
+		<div class="section">
+			<a href="raft/index.html" class="btn btn--primary btn--full text--center">Raft Consensus Algorithm</a> 
+			<a href="calculator/web-ui/index.html" class="btn btn--primary btn--full text--center">Reactive calculator</a>
+			<div class="clearfix"></div>
+		</div>
+
+		<footer class="text--center">
+      <iframe src="https://ghbtns.com/github-btn.html?user=unicredit&repo=akka.js&type=star&count=true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe>
+      <iframe src="https://ghbtns.com/github-btn.html?user=unicredit&repo=akka.js&type=fork&count=true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe>
+      <br><span class="text--small">The Raft demo requires Chromium</span>
+		</footer>
+	</div>
+</body>
 </html>
