@@ -15,9 +15,12 @@ trait DOMInput[A <: html.Element] {
   val id: String
   val element = UI.elementById[A](id)
 
-  element.addEventListener("change", (m: dom.Event) => self ! m)
-  element.addEventListener("keypress", (m: dom.Event) => self ! m)
-  element.addEventListener("keyup", (m: dom.Event) => self ! m)
+  //element.addEventListener("change", (m: dom.Event) => self ! m)
+  element.addEventListener("input", (m: dom.Event) => {
+    println("INPUT")
+    self ! m
+  })
+  //element.addEventListener("keyup", (m: dom.Event) => self ! m)
 }
 
 // TWEET
@@ -104,20 +107,21 @@ class PolyActor extends Actor {
     })
   }
 
-  def receive = operational(names.map(_.last -> .1).toMap)
+  def receive = operational(names.map(_.last -> 1.0).toMap)
 
   def operational(vals: Map[Char, Double]) : Receive = {
     case Poly.Value(id, newValue) =>
+      val nVals = vals + (id -> newValue)
+      
+      val delta = Polynomial.computeDelta(nVals('a'), nVals('b'), nVals('c'))
 
-      val delta = Polynomial.computeDelta(vals('a'), vals('b'), vals('c'))
-
-      val solutions = Polynomial.computeSolutions(vals('a'), vals('b'), vals('c'), delta)
+      val solutions = Polynomial.computeSolutions(nVals('a'), nVals('b'), nVals('c'), delta)
 
       context.child("ui") match {
         case Some(ui) => ui !  Poly.PolynomialMsg(delta, solutions)
       }
 
-      context.become(operational(vals + (id -> newValue)))
+      context.become(operational(nVals))
   }
 
 }
