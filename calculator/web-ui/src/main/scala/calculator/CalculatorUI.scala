@@ -104,15 +104,14 @@ class PolyActor extends Actor {
     })
   }
 
-  def receive = operational(names.map(_.last -> Double.NaN).toMap)
+  def receive = operational(names.map(_.last -> .1).toMap)
 
   def operational(vals: Map[Char, Double]) : Receive = {
     case Poly.Value(id, newValue) =>
-      val dVs = vals.map{case (k, v) => k -> Math.pow(v, 2)}
 
-      val delta = Polynomial.computeDelta(dVs('a'), dVs('b'), dVs('c'))
+      val delta = Polynomial.computeDelta(vals('a'), vals('b'), vals('c'))
 
-      val solutions = Polynomial.computeSolutions(dVs('a'), dVs('b'), dVs('c'), delta)
+      val solutions = Polynomial.computeSolutions(vals('a'), vals('b'), vals('c'), delta)
 
       context.child("ui") match {
         case Some(ui) => ui !  Poly.PolynomialMsg(delta, solutions)
