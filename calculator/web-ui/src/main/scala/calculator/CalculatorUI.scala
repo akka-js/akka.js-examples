@@ -49,9 +49,8 @@ class TweetActor(val id: String = "tweettext") extends Actor with DOMInput[html.
   def receive = {
     case e: dom.Event =>
       val remaining = TweetLength.tweetRemainingCharsCount(value)
-      context.child("ui") match {
-        case Some(ui) => ui ! Tweet.TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining))
-      }
+      context.child("ui").map(ui =>
+        ui ! Tweet.TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining)))              
   }
 }
 
@@ -117,9 +116,7 @@ class PolyActor extends Actor {
 
       val solutions = Polynomial.computeSolutions(nVals('a'), nVals('b'), nVals('c'), delta)
 
-      context.child("ui") match {
-        case Some(ui) => ui !  Poly.PolynomialMsg(delta, solutions)
-      }
+      context.child("ui").map(ui => ui !  Poly.PolynomialMsg(delta, solutions))
 
       context.become(operational(nVals))
   }
@@ -166,9 +163,7 @@ class CalculatorUI extends Actor {
 
   def receive = {
     case Calc.CalculatorMsg(value) =>
-      value.keySet.foreach(k => context.child(k.toString) match {
-        case Some(actor) => actor ! value(k)
-      })
+      value.keySet.foreach(k => context.child(k.toString).map(_ !  value(k)))
   }
 }
 
@@ -246,9 +241,7 @@ class CalcActor extends Actor {
     case Calc.CalculatorExpr(id, newValue) =>
       val newMap: Map[Char, Expr] = vals + (id -> newValue)
 
-      context.child("ui") match {
-        case Some(ui) => ui ! Calc.CalculatorMsg(Calculator.computeValues(newMap))
-      }
+      context.child("ui") .map(ui => ui ! Calc.CalculatorMsg(Calculator.computeValues(newMap)))
 
       context.become(operational(newMap))
   }

@@ -16,10 +16,10 @@ import com.typesafe.config.ConfigFactory
 import akka.worker._
 
 package object fn extends js.GlobalScope {
-  def transition(from: Int, to: Int) = js.native
-  def transitionHeartBeat(from: Int) = js.native
-  def setState(id: Int, role: String) = js.native
-  def setText(txt: String) = js.native
+  def transition(from: Int, to: Int): Unit = js.native
+  def transitionHeartBeat(from: Int): Unit = js.native
+  def setState(id: Int, role: String): Unit = js.native
+  def setText(txt: String): Unit = js.native
 }
 
 class Sequencer(ui: ActorRef) extends Actor with RaftClient /*with ActorLogging*/ {
