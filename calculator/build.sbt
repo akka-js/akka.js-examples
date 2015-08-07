@@ -1,6 +1,6 @@
 submitProjectName := "calculator"
 
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.7"
 
 scalacOptions ++= Seq("-deprecation", "-feature")
 
@@ -22,9 +22,7 @@ projectDetailsMap := {
   )
 
   val depsAkka = Seq(
-    "com.typesafe.akka" %% "akka-actor" % "2.3.9",
-    "com.typesafe.akka" %% "akka-testkit" % "2.3.9",
-    "com.typesafe.akka" %% "akka-persistence-experimental" % "2.3.9"
+	"akka.js" %%% "akkaactor" % "0.0.2-SNAPSHOT"
   )
 
   Map(
