@@ -22,7 +22,7 @@ projectDetailsMap := {
   )
 
   val depsAkka = Seq(
-	"akka.js" %%% "akkaactor" % "0.0.2-SNAPSHOT"
+	"akka.js" %%% "akkaactor" % "0.2-SNAPSHOT"
   )
 
   Map(

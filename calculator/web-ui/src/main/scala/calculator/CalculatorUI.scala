@@ -50,7 +50,7 @@ class TweetActor(val id: String = "tweettext") extends Actor with DOMInput[html.
     case e: dom.Event =>
       val remaining = TweetLength.tweetRemainingCharsCount(value)
       context.child("ui").map(ui =>
-        ui ! Tweet.TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining)))              
+        ui ! Tweet.TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining)))
   }
 }
 
@@ -111,7 +111,7 @@ class PolyActor extends Actor {
   def operational(vals: Map[Char, Double]) : Receive = {
     case Poly.Value(id, newValue) =>
       val nVals = vals + (id -> newValue)
-      
+
       val delta = Polynomial.computeDelta(nVals('a'), nVals('b'), nVals('c'))
 
       val solutions = Polynomial.computeSolutions(nVals('a'), nVals('b'), nVals('c'), delta)

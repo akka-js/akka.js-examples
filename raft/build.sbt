@@ -1,7 +1,7 @@
 val commonSettings = Seq(
-    EclipseKeys.useProjectId := true,
-    EclipseKeys.skipParents in ThisBuild := false,
-    scalaVersion := "2.11.6",
+    //EclipseKeys.useProjectId := true,
+    //EclipseKeys.skipParents in ThisBuild := false,
+    scalaVersion := "2.11.7",
     organization := "akka.js",
     scalacOptions ++= Seq(
         "-deprecation",
@@ -18,7 +18,9 @@ lazy val root = project.in(file("."))
   .enablePlugins(ScalaJSPlugin)
   .settings(commonSettings: _*)
   .settings(
+    name := "raft",
     libraryDependencies += "akka.js" %%% "akkaactor" % "0.2-SNAPSHOT",
+    persistLauncher in Compile := true,
     version := "0.2-SNAPSHOT"
   )
 
