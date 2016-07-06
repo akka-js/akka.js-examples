@@ -48,6 +48,7 @@ class TweetActor(val id: String = "tweettext") extends Actor with DOMInput[html.
       val remaining = TweetLength.tweetRemainingCharsCount(value)
       context.child("ui") match {
         case Some(ui) => ui ! Tweet.TweetMsg(remaining, TweetLength.colorForRemainingCharsCount(remaining))
+        case _ =>
       }
   }
 }
@@ -116,6 +117,7 @@ class PolyActor extends Actor {
 
       context.child("ui") match {
         case Some(ui) => ui !  Poly.PolynomialMsg(delta, solutions)
+        case _ =>
       }
 
       context.become(operational(vals + (id -> newValue)))
@@ -165,6 +167,7 @@ class CalculatorUI extends Actor {
     case Calc.CalculatorMsg(value) =>
       value.keySet.foreach(k => context.child(k.toString) match {
         case Some(actor) => actor ! value(k)
+        case _ =>
       })
   }
 }
@@ -245,6 +248,7 @@ class CalcActor extends Actor {
 
       context.child("ui") match {
         case Some(ui) => ui ! Calc.CalculatorMsg(Calculator.computeValues(newMap))
+        case _ =>
       }
 
       context.become(operational(newMap))
@@ -254,7 +258,7 @@ class CalcActor extends Actor {
 
 
 object UI extends js.JSApp {
-  val system = ActorSystem("calculator-ui")
+  val system = ActorSystem("calculator-ui", AkkaConfig.config)
 
   def main(): Unit = {
     try {

@@ -1,24 +1,34 @@
-val commonSettings = Seq(
-    EclipseKeys.useProjectId := true,
-    EclipseKeys.skipParents in ThisBuild := false,
-    scalaVersion := "2.11.6",
-    organization := "akka.js",
-    scalacOptions ++= Seq(
-        "-deprecation",
-        "-unchecked",
-        "-feature",
-        "-encoding", "utf8"
-    ),
-    resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
-    resolvers += "sonatype-snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
-    scalaJSStage in Global := FastOptStage
-)
 
-lazy val root = project.in(file("."))
-  .enablePlugins(ScalaJSPlugin)
-  .settings(commonSettings: _*)
-  .settings(
-    libraryDependencies += "akka.js" %%% "akkaactor" % "0.2-SNAPSHOT",
-    version := "0.2-SNAPSHOT"
+name := "akka.js_demo"
+
+scalaVersion in ThisBuild := "2.11.8"
+scalacOptions in ThisBuild := Seq("-feature", "-language:_", "-deprecation")
+
+lazy val root = project.in(file(".")).
+  aggregate(demoJS, demoJVM)
+
+lazy val demo = crossProject.in(file(".")).
+  settings(
+    name := "raft",
+    fork in run := true
+  ).
+  jvmSettings(
+    resolvers += "Akka Snapshots" at " http://repo.akka.io/snapshots/",
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-actor" % "2.4.7"
+    )
+  ).
+  jsSettings(
+    resolvers += Resolver.sonatypeRepo("snapshots"),
+    libraryDependencies ++= Seq(
+      "eu.unicredit" %%% "akkajsactor" % "0.1.2-SNAPSHOT"
+    ),
+    persistLauncher in Compile := true,
+    scalaJSStage in Global := FastOptStage,
+    scalaJSUseRhino in Global := false
   )
 
+lazy val demoJVM = demo.jvm
+lazy val demoJS = demo.js
+
+cancelable in Global := true
