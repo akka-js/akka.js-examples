@@ -1,5 +1,6 @@
 package eu.unicredit
 
+
 import akka.actor._
 import akka.stream.actor.{ActorPublisherMessage, ActorPublisher}
 import akka.stream.scaladsl._
@@ -79,6 +80,7 @@ object Streams {
       else
         Source.actorRef[String](1000, OverflowStrategy.dropNew)
 
+
     val factorial = Source(1 to 10).scan(1)(_ * _)
 
     implicit val dispatcher = system.dispatcher
@@ -91,6 +93,8 @@ object Streams {
       .throttle(1, 1.second, 1, ThrottleMode.shaping)
       .mapAsync(10)(a=>Future(s"${new java.util.Date()} - $a"))
 
+
+
     val toStringActorRef = throttledAndZipped.to(Sink.actorRef(printActor, EndMessage)).runWith(toStringActorPublisherSource)
 
     (1 to 10).map ( num => toStringActorRef !  num.toString)
@@ -102,6 +106,10 @@ object Streams {
     system.scheduler.scheduleOnce(12 second )(
       system.terminate()
     )
+
+
+
+
   }
 
 
@@ -122,5 +130,6 @@ object Streams {
         case _ => log.info("Complete")
       }
   }
+
 
 }

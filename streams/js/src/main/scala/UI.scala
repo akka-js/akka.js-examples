@@ -7,7 +7,6 @@ import org.scalajs.dom.document.{getElementById => getElem}
 import scalatags.JsDom._
 import scalatags.JsDom.all._
 
-
 object UI {
 
   def start(config: Config) = {
@@ -17,7 +16,6 @@ object UI {
 
   case class UI()(implicit system: ActorSystem) extends DomActor {
     override val domElement = Some(getElem("root"))
-
 
     def template() = div(cls := "pure-g")(
       div(cls := "pure-u-1-3")(
@@ -32,7 +30,5 @@ object UI {
       )
     )
   }
-
-
 
 }
