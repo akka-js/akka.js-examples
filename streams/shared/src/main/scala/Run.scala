@@ -7,7 +7,9 @@ object Run {
 
   def run(akkaConfig: Config) = {
     implicit val system = ActorSystem("streams", akkaConfig)
+
     Streams.simpleFlow
-    Streams.complexFlow(false)
+    //Streams.complexFlow(false)
+    Streams.complexFlow(true)
   }
 }

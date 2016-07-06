@@ -76,7 +76,7 @@ object Streams {
 
     val toStringActorPublisherSource =
       if (runActorPublisher)
-        Source.actorPublisher[String](Props[ToStringActorPublisher])
+        Source.actorPublisher[String](Props(new ToStringActorPublisher()))
       else
         Source.actorRef[String](1000, OverflowStrategy.dropNew)
 
