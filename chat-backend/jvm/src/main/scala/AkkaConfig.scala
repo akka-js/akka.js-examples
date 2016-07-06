@@ -7,7 +7,7 @@ object AkkaConfig {
   val default = """
 akka {
   home = ""
-  version = "2.4.4"
+  version = "2.4.7"
   loggers = ["akka.event.Logging$DefaultLogger"]
   logging-filter = "akka.event.DefaultLoggingFilter"
   loggers-dispatcher = "akka.actor.default-dispatcher"
@@ -192,7 +192,7 @@ akka {
     warn-about-java-serializer-usage = on
     serialization-identifiers {
       "akka.serialization.JavaSerializer" = 1
-      "akka.serialization.ByteArraySerializer" = 4  
+      "akka.serialization.ByteArraySerializer" = 4
     }
     dsl {
       inbox-size = 1000
