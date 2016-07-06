@@ -1,4 +1,4 @@
-# akka.js-examples
+#Akka.js Examples
 
 Here we have a collection of examples on how you can use Akka.JS in the browser.
 Each description is followed by the commands to run to get the related example run.
