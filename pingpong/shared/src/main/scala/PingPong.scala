@@ -3,7 +3,7 @@ package eu.unicredit
 import akka.actor._
 
 object PingPong {
-  lazy val system = ActorSystem("pingpong", AkkaConfig.config)
+  lazy val system = ActorSystem("pingpong")
 
   def ppActor(matcher: String, answer: String) = Props(
       new Actor {

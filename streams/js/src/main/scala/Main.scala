@@ -8,7 +8,7 @@ object Main extends js.JSApp {
 
   def main() = {
     println("JS env")
-    Run.run(AkkaConfig.config)
+    Run.run()
     //UI.start(AkkaConfig.config)
   }
 

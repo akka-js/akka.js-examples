@@ -15,7 +15,7 @@ lazy val demo = crossProject.in(file(".")).
   jsSettings(
     resolvers += Resolver.sonatypeRepo("snapshots"),
     libraryDependencies ++= Seq(
-      "eu.unicredit" %%% "akkajsactor" % "0.1.1-SNAPSHOT",
+      "eu.unicredit" %%% "akkajsactor" % "0.2.0",
       "org.scala-js" %%% "scalajs-dom" % "0.9.0",
       "com.lihaoyi" %%% "scalatags" % "0.5.4",
       "com.lihaoyi" %%% "upickle" % "0.4.0",

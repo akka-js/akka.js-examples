@@ -11,7 +11,7 @@ import org.scalajs.dom.raw._
 
 object ChatUI {
 
-  implicit lazy val system = ActorSystem("chat", AkkaConfig.config)
+  implicit lazy val system = ActorSystem("chat")
 
   def start =
     system.actorOf(Props(ChatUI()), "page")

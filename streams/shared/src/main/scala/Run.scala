@@ -5,8 +5,8 @@ import com.typesafe.config.Config
 
 object Run {
 
-  def run(akkaConfig: Config) = {
-    implicit val system = ActorSystem("streams", akkaConfig)
+  def run() = {
+    implicit val system = ActorSystem("streams")
 
     Streams.simpleFlow
     //Streams.complexFlow(false)

@@ -5,9 +5,9 @@ lazy val webUI = project.in(file("web-ui")).
     // Add the sources of the calculator project
     unmanagedSourceDirectories in Compile +=
       (scalaSource in (assignmentProject, Compile)).value / "calculator",
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.8.0",
-    libraryDependencies += "akka.js" %%% "akkaactor" % "0.1.1-SNAPSHOT",
-    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.0-SNAP5",
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.0",
+    libraryDependencies += "eu.unicredit" %%% "akkajsactor" % "0.2.0",
+    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.0",
     scalaJSStage in Global := FastOptStage,
     persistLauncher in Compile := true
   )

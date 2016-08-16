@@ -1,7 +1,6 @@
 package eu.unicredit
 
 import akka.actor._
-import AkkaConfig.config
 
 import scalatags.JsDom._
 import scalatags.JsDom.all._

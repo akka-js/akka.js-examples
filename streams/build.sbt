@@ -15,16 +15,16 @@ lazy val demo = crossProject.in(file(".")).
   jvmSettings(
     resolvers += "Akka Snapshots" at " http://repo.akka.io/snapshots/",
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-actor" % "2.4.4",
-      "com.typesafe.akka" %% "akka-stream" % "2.4.4"
+      "com.typesafe.akka" %% "akka-actor" % "2.4.9-RC2",
+      "com.typesafe.akka" %% "akka-stream" % "2.4.9-RC2"
     )
   ).
   jsSettings(
     resolvers += Resolver.sonatypeRepo("snapshots"),
     libraryDependencies ++= Seq(
 
-      "eu.unicredit" %%% "akkajsactorstream" % "0.1.2-SNAPSHOT",
-      "eu.unicredit" %%% "akkajsactor" % "0.1.2-SNAPSHOT",
+      "eu.unicredit" %%% "akkajsactorstream" % "0.2.0",
+      "eu.unicredit" %%% "akkajsactor" % "0.2.0",
       "org.scala-js" %%% "scalajs-dom" % "0.9.0",
       "com.lihaoyi" %%% "scalatags" % "0.5.4"
     ),
@@ -37,4 +37,3 @@ lazy val demoJVM = demo.jvm
 lazy val demoJS = demo.js
 
 cancelable in Global := true
-

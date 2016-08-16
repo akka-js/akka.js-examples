@@ -1,7 +1,6 @@
 package eu.unicredit
 
 import akka.actor._
-import AkkaConfig.config
 
 import org.scalajs.dom.{window, document}
 import org.scalajs.dom.document.{getElementById => getElem}
@@ -11,7 +10,7 @@ import scalatags.JsDom.all._
 
 object P2PChat {
 
-  implicit lazy val system = ActorSystem("p2pchat", config)
+  implicit lazy val system = ActorSystem("p2pchat")
 
   def run =
     system.actorOf(Props(Page()), "page")

@@ -258,7 +258,7 @@ class CalcActor extends Actor {
 
 
 object UI extends js.JSApp {
-  val system = ActorSystem("calculator-ui", AkkaConfig.config)
+  val system = ActorSystem("calculator-ui")
 
   def main(): Unit = {
     try {

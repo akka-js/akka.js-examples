@@ -2,15 +2,14 @@ package eu.unicredit
 
 import akka.actor._
 import scala.concurrent.duration._
-import AkkaConfig.config
 import raft._
 import scala.util.{Success, Failure}
 
 object Algo {
 
-  implicit lazy val system = ActorSystem("raft", AkkaConfig.config)
+  implicit lazy val system = ActorSystem("raft")
 
-  def start() = {    
+  def start() = {
     import system._
     system.scheduler.scheduleOnce(0 millis)(run)
   }

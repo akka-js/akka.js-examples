@@ -11,7 +11,7 @@ object ChatMsgs {
 
 object ChatServer {
 
-  implicit lazy val system = ActorSystem("chat", AkkaConfig.config)
+  implicit lazy val system = ActorSystem("chat")
 
   lazy val manager =
     system.actorOf(Props(Manager()), "manager")
