@@ -19,7 +19,7 @@ lazy val demo = crossProject.in(file(".")).
     )
   ).
   jsSettings(
-    resolvers += Resolver.sonatypeRepo("snapshots"),
+    resolvers += Resolver.sonatypeRepo("releases"),
     libraryDependencies ++= Seq(
       "eu.unicredit" %%% "akkajsactor" % "0.2.0"
     ),

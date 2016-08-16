@@ -13,7 +13,7 @@ lazy val demo = crossProject.in(file(".")).
     fork in run := true
   ).
   jsSettings(
-    resolvers += Resolver.sonatypeRepo("snapshots"),
+    resolvers += Resolver.sonatypeRepo("releases"),
     libraryDependencies ++= Seq(
       "eu.unicredit" %%% "akkajsactor" % "0.2.0",
       "org.scala-js" %%% "scalajs-dom" % "0.9.0",
