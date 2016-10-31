@@ -15,15 +15,15 @@ lazy val demo = crossProject.in(file(".")).
   jvmSettings(
     resolvers += "Akka Snapshots" at " http://repo.akka.io/snapshots/",
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-actor" % "2.4.9-RC2",
-      "com.typesafe.akka" %% "akka-stream" % "2.4.9-RC2"
+      "com.typesafe.akka" %% "akka-actor" % "2.4.12",
+      "com.typesafe.akka" %% "akka-stream" % "2.4.12"
     )
   ).
   jsSettings(
     resolvers += Resolver.sonatypeRepo("releases"),
     libraryDependencies ++= Seq(
-      "eu.unicredit" %%% "akkajsactorstream" % "0.2.0",
-      "eu.unicredit" %%% "akkajsactor" % "0.2.0",
+      "eu.unicredit" %%% "akkajsactorstream" % "0.2.4.12",
+      "eu.unicredit" %%% "akkajsactor" % "0.2.4.12",
       "org.scala-js" %%% "scalajs-dom" % "0.9.0",
       "com.lihaoyi" %%% "scalatags" % "0.5.4"
     ),
