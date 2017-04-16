@@ -283,7 +283,7 @@ object UI extends js.JSApp {
   // TWEET LENGTH
 
   def setupTweetMeasurer(): Unit = {
-    val tweetActor = system.actorOf(Props(classOf[TweetActor]))
+    val tweetActor = system.actorOf(Props(new TweetActor()))
   }
 
   // 2ND ORDER POLYNOMIAL

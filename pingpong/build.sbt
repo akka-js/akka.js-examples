@@ -14,13 +14,12 @@ lazy val demo = crossProject.in(file(".")).
   ).
   jvmSettings(
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-actor" % "2.4.12"
+      "com.typesafe.akka" %% "akka-actor" % "2.5.0-RC1"
     )
   ).
   jsSettings(
-    resolvers += Resolver.sonatypeRepo("releases"),
     libraryDependencies ++= Seq(
-      "org.akka-js" %%% "akkajsactor" % "0.2.4.16"
+      "org.akka-js" %%% "akkajsactor" % "0.2.5.0-RC1-SNAPSHOT"
     ),
     persistLauncher in Compile := true,
     scalaJSStage in Global := FastOptStage

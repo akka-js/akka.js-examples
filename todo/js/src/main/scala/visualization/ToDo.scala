@@ -9,7 +9,7 @@ import scalatags.JsDom.all._
 
 object ToDo {
 
-  implicit lazy val system = ActorSystem("todo", AkkaConfig.config)
+  implicit lazy val system = ActorSystem("todo")
 
   def start =
     system.actorOf(Props(ToDoList()), "page")
@@ -18,7 +18,7 @@ object ToDo {
     override val domElement = Some(getElem("root"))
 
     val inputBox =
-      input("placeholder".attr := "what to do?").render
+      input(attr("placeholder") := "what to do?").render
 
     def template() = ul(cls := "pure-menu-list")(
         h1("ToDo:"),
