@@ -15,7 +15,7 @@ lazy val demo = crossProject.in(file(".")).
   jsSettings(
     resolvers += Resolver.sonatypeRepo("releases"),
     libraryDependencies ++= Seq(
-      "org.akka-js" %%% "akkajsactor" % "1.2.5.0-SNAPSHOT",
+      "org.akka-js" %%% "akkajsactor" % "1.2.5.0",
       "com.lihaoyi" %%% "scalatags" % "0.6.3"
     ),
     persistLauncher in Compile := true,
