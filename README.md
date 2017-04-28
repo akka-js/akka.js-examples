@@ -1,4 +1,4 @@
-#Akka.js Examples
+# Akka.js Examples
 
 Here we have a collection of examples on how you can use Akka.JS in the browser.
 Each description is followed by the commands to run to get the related example run.
@@ -15,7 +15,7 @@ $ sbt webUI/fastOptJS
 $ $BROWSER web-ui/index.html
 ```
 
-##Chat-backend
+## Chat-backend
 
 An implementation of a server that broadcast messages over each connected websocket
 
@@ -32,7 +32,7 @@ $ npm install websocket
 $ sbt demoJS/run
 ```
 
-##Chat-ui
+## Chat-ui
 
 A generic front end for a broadcast chat.
 Insert the url of the server you want to connect and then send your messages over websocket.
@@ -43,7 +43,7 @@ $ sbt demoJS/fullOptJS
 $ $BROWSER ui/index.html
 ```
 
-##P2P-Chat
+## P2P-Chat
 
 A Point to Point Chat serverless with manual key exchange over WebRTC.
 This is very experimental and could not work ...
@@ -55,7 +55,7 @@ $ sbt demoJS/fullOptJS
 $ $BROWSER ui/index.html
 ```
 
-##PingPong
+## PingPong
 
 A very basic example that could run on Js or on JVM.
 This is a very good starting point to be used as template for new projects.
@@ -72,7 +72,7 @@ $ cd pingpong
 $ sbt demoJS/run
 ```
 
-##Raft
+## Raft
 
 A basic implementation of the Raft algo taken from: [archie](https://github.com/archie/raft)
 As you can see it cross compile.
@@ -89,7 +89,7 @@ $ cd raft
 $ sbt demoJS/run
 ```
 
-##Streams
+## Streams
 
 An example usage of akka streams.
 This is very bleeding edge but please go on and report any issue you find here!
@@ -106,7 +106,7 @@ $ cd streams
 $ sbt demoJS/run
 ```
 
-##ToDo
+## ToDo
 
 Here you can check possible integration with UI frameworks.
 Running it will show you a basic ToDo WebPage.
