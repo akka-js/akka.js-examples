@@ -1,7 +1,5 @@
 package calculator
 
-import org.scalatest.path
-
 import scala.scalajs.js
 import org.scalajs.dom
 import org.scalajs.dom.html
