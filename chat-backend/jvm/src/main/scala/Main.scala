@@ -1,10 +1,8 @@
-package eu.unicredit
+package org.akkajs
 
 object Main extends App {
 
   println("JVM env")
 
-  //Run.run
-  //Chat server
   ChatServerAkkaHttp.run
 }

@@ -1,7 +1,7 @@
 
 name := "akka.js_demo"
 
-scalaVersion in ThisBuild := "2.11.8"
+scalaVersion in ThisBuild := "2.12.6"
 scalacOptions in ThisBuild := Seq("-feature", "-language:_", "-deprecation")
 
 lazy val root = project.in(file(".")).
@@ -14,17 +14,18 @@ lazy val demo = crossProject.in(file(".")).
   ).
   jvmSettings(
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-http" % "10.0.5"
+      "com.typesafe.akka" %% "akka-http" % "10.1.3",
+      "com.typesafe.akka" %% "akka-stream" % "2.5.14"
     )
   ).
   jsSettings(
     resolvers += Resolver.sonatypeRepo("releases"),
     libraryDependencies ++= Seq(
-      "org.akka-js" %%% "akkajsactor" % "1.2.5.0"
+      "org.akka-js" %%% "akkajsactor" % "1.2.5.14"
     ),
-    persistLauncher in Compile := true,
     scalaJSStage in Global := FastOptStage,
-    scalaJSUseRhino in Global := false
+    scalaJSUseMainModuleInitializer := true,
+    skip in packageJSDependencies := false
   )
 
 lazy val demoJVM = demo.jvm
