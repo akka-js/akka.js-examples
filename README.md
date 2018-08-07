@@ -43,18 +43,6 @@ $ sbt demoJS/fullOptJS
 $ $BROWSER ui/index.html
 ```
 
-## P2P-Chat
-
-A Point to Point Chat serverless with manual key exchange over WebRTC.
-This is very experimental and could not work ...
-Please take inspiration from the code.
-
-```
-$ cd p2p-chat
-$ sbt demoJS/fullOptJS
-$ $BROWSER ui/index.html
-```
-
 ## PingPong
 
 A very basic example that could run on Js or on JVM.

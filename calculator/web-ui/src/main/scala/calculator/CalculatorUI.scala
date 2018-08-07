@@ -1,7 +1,5 @@
 package calculator
 
-import org.scalatest.path
-
 import scala.scalajs.js
 import org.scalajs.dom
 import org.scalajs.dom.html
@@ -257,19 +255,8 @@ class CalcActor extends Actor {
 
 
 
-object UI extends js.JSApp {
+object UI extends App {
   val system = ActorSystem("calculator-ui")
-
-  def main(): Unit = {
-    try {
-      setupTweetMeasurer()
-      setup2ndOrderPolynomial()
-      setupCalculator()
-    } catch {
-      case th: Throwable =>
-        th.printStackTrace()
-    }
-  }
 
   // Helpers
 
@@ -296,6 +283,15 @@ object UI extends js.JSApp {
 
   def setupCalculator(): Unit = {
     val calculatorActor = system.actorOf(Props(classOf[CalcActor]))
+  }
+
+  try {
+    setupTweetMeasurer()
+    setup2ndOrderPolynomial()
+    setupCalculator()
+  } catch {
+    case th: Throwable =>
+      th.printStackTrace()
   }
 
 }

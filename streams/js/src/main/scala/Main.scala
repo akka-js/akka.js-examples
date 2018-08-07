@@ -1,15 +1,9 @@
-package eu.unicredit
+package org.akkajs
 
-import akka.actor.ActorSystem
+object Main extends App {
 
-import scala.scalajs.js
-
-object Main extends js.JSApp {
-
-  def main() = {
-    println("JS env")
-    Run.run()
-    //UI.start(AkkaConfig.config)
-  }
+  println("JS env")
+  Run.run()
+  //UI.start(AkkaConfig.config)
 
 }

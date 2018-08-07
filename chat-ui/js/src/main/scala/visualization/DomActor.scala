@@ -1,4 +1,4 @@
-package eu.unicredit
+package org.akkajs
 
 import akka.actor.Actor
 import org.scalajs.dom.raw

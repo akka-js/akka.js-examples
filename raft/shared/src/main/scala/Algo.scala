@@ -1,4 +1,4 @@
-package eu.unicredit
+package org.akkajs
 
 import akka.actor._
 import scala.concurrent.duration._

@@ -1,4 +1,4 @@
-package eu.unicredit
+package org.akkajs
 
 import akka.actor.ActorSystem
 import com.typesafe.config.Config

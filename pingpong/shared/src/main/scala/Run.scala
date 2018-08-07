@@ -1,8 +1,7 @@
-package eu.unicredit
+package org.akkajs
 
-object Run {
+object Run extends App {
 
-  def run =
-    pippo.PingPong.start
+  PingPong.start
 
 }

@@ -1,13 +1,7 @@
-package eu.unicredit
+package org.akkajs
 
-object Run {
+object Run extends App {
 
-  def run = {
-    //First
-    //PingPong.start
-    //Second
     Algo.start
-    //Data Visualization
 
-  }
 }

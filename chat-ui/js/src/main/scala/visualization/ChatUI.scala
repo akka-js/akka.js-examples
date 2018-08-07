@@ -1,4 +1,4 @@
-package eu.unicredit
+package org.akkajs
 
 import akka.actor._
 
@@ -19,7 +19,7 @@ object ChatUI {
   case class ChatUI() extends DomActor {
     override val domElement = Some(getElem("root"))
 
-    val urlBox = input("placeholder".attr := "enter url here").render
+    val urlBox = input(attr("placeholder") := "enter url here").render
 
     def template() = div(cls := "pure-g")(
       div(cls := "pure-u-1-3")(
@@ -45,7 +45,7 @@ object ChatUI {
 
     val initValue = List()
 
-    val msgBox = input("placeholder".attr := "enter message").render
+    val msgBox = input(attr("placeholder") := "enter message").render
 
     def template(txt: List[String]) = div(cls := "pure-u-1-3")(
       h3(s"Server: $wsUrl"),

@@ -1,5 +1,4 @@
-
-package eu.unicredit
+package org.akkajs
 
 import scala.scalajs.js
 import js.Dynamic.{literal, global => g}

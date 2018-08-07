@@ -1,4 +1,4 @@
-package eu.unicredit
+package org.akkajs
 
 object Main extends App {
 

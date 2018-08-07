@@ -1,13 +1,9 @@
-package eu.unicredit
+package org.akkajs
 
-import scala.scalajs.js
+object Main extends App {
 
-object Main extends js.JSApp {
+  println("JS env")
 
-  def main() = {
-    println("JS env")
-
-    ChatUI.start
-  }
-
+  ChatUI.start
+  
 }

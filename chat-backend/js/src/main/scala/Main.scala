@@ -1,13 +1,11 @@
-package eu.unicredit
+package org.akkajs
 
 import scala.scalajs.js
 
-object Main extends js.JSApp {
+object Main extends App {
 
-  def main() = {
-    println("JS env")
+  println("JS env")
 
-    ChatServerNode.run
-  }
+  ChatServerNode.run
 
 }
